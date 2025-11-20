@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    string data;
+    Node* next;
+};
+
+Node* topNode = nullptr; // Top pointer for the stack
+
+// Push: add data to the top of stack
+void push(string value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = topNode; // link to previous top
+    topNode = newNode;       // update top
+}
+
+// Pop: remove the top element
+void pop() {
+    if (topNode == nullptr) {
+        cout << "Stack is empty, cannot pop!" << endl;
+        return;
+    }
+    Node* temp = topNode;
+    topNode = topNode->next;
+    delete temp;
+}
+
+// Peek: see the top element
+string peek() {
+    if (topNode == nullptr) {
+        return "Stack is empty!";
+    }
+    return topNode->data;
+}
+
+// Display stack content
+void display() {
+    if (topNode == nullptr) {
+        cout << "Stack is empty!" << endl;
+        return;
+    }
+
+    Node* current = topNode;
+    cout << "Stack: ";
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    push("A");
+    push("B");
+    push("C");
+
+    display(); // C B A
+
+    cout << "Top element: " << peek() << endl;
+
+    pop();     // removes C
+    display(); // B A
+
+    return 0;
+}
