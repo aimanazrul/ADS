@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    string data;
+    Node* next;
+};
+
+Node* front = nullptr; // Points to first element
+Node* rear = nullptr;  // Points to last element
+
+// Enqueue: insert at the rear
+void enqueue(string value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    // If queue is empty
+    if (front == nullptr && rear == nullptr) {
+        front = rear = newNode;
+    } else {
+        rear->next = newNode; // link old rear to new node
+        rear = newNode;       // update rear
+    }
+}
+
+// Dequeue: remove from the front
+void dequeue() {
+    if (front == nullptr) {
+        cout << "Queue is empty, cannot dequeue!" << endl;
+        return;
+    }
+
+    Node* temp = front;
+    front = front->next;
+
+    // If queue becomes empty
+    if (front == nullptr) {
+        rear = nullptr;
+    }
+
+    delete temp;
+}
+
+// Display all elements
+void display() {
+    if (front == nullptr) {
+        cout << "Queue is empty!" << endl;
+        return;
+    }
+
+    Node* current = front;
+    cout << "Queue: ";
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    enqueue("A");
+    enqueue("B");
+    enqueue("C");
+
+    display(); // A B C
+
+    dequeue(); // remove A
+    display(); // B C
+
+    return 0;
+}
